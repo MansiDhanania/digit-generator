@@ -4,7 +4,6 @@ MNIST Digit Generator - Interactive Web Application.
 This Streamlit app provides an interactive interface to generate handwritten digits
 using a pre-trained Conditional Variational Autoencoder (CVAE).
 
-Author: Mansi Dhanania
 """
 
 import logging
