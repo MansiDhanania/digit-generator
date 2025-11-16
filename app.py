@@ -5,7 +5,6 @@ This Streamlit app provides an interactive interface to generate handwritten dig
 using a pre-trained Conditional Variational Autoencoder (CVAE).
 
 Author: Mansi Dhanania
-License: MIT
 """
 
 import logging
@@ -213,7 +212,7 @@ def main() -> None:
     # Main content
     try:
         # Load model
-        with st.spinner("🔄 Loading model..."):
+        with st.spinner("Loading model..."):
             model = load_model()
 
         # Control Panel - Compact
@@ -297,7 +296,7 @@ def main() -> None:
                 st.pyplot(fig, use_container_width=True)
 
             except (ValueError, RuntimeError) as e:
-                st.error(f"❌ Error: {e}")
+                st.error(f"Error: {e}")
 
         else:
             # Placeholder message
@@ -332,7 +331,7 @@ def main() -> None:
     except FileNotFoundError as e:
         st.error(
             f"""
-            ❌ **Model Not Found**
+            **Model Not Found**
 
             {str(e)}
 
