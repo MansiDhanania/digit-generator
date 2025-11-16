@@ -1,16 +1,15 @@
 # MNIST Digit Generator
 
-A production-ready **Conditional Variational Autoencoder (CVAE)** that generates realistic handwritten digits. This project demonstrates deep generative modeling with a user-friendly web interface.
+A **Conditional Variational Autoencoder (CVAE)** that generates realistic handwritten digits. This project demonstrates deep generative modeling with a user-friendly web interface.
 
-## 🎯 Project Overview
+## Project Overview
 
-This project showcases:
+This project highlights:
 - **Generative AI**: Training a CVAE to learn the latent distribution of handwritten digits
 - **PyTorch**: Modern deep learning implementation with proper architecture design
 - **Web App**: Interactive Streamlit interface for real-time digit generation
-- **Production Practices**: Type hints, error handling, configuration management, and documentation
 
-## 📋 Features
+## Features
 
 - **Conditional Generation**: Generate any digit (0-9) on demand
 - **Latent Space Exploration**: Sample from the learned latent distribution
@@ -18,7 +17,7 @@ This project showcases:
 - **GPU Support**: Automatic GPU acceleration when available
 - **Model Persistence**: Pre-trained weights included for immediate use
 
-## 🏗️ Model Architecture
+## Model Architecture
 
 ### Conditional Variational Autoencoder (CVAE)
 
@@ -42,13 +41,13 @@ This project showcases:
 - Combined: `Loss = BCE + KLD`
 
 ### Training Details
-- **Dataset**: MNIST (60,000 training images)
+- **Dataset**: MNIST (60000 training images)
 - **Batch Size**: 128
 - **Learning Rate**: 1e-3 (Adam optimizer)
 - **Epochs**: 10
 - **Device**: GPU if available, else CPU
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 - Python 3.8+
@@ -88,7 +87,7 @@ python cvae_mnist.py
 ```
 This will download MNIST data and save the trained model as `cvae_mnist.pth`.
 
-## 🧪 How It Works
+## How It Works
 
 1. **Model Training** (`cvae_mnist.py`):
    - Loads MNIST dataset
@@ -102,7 +101,7 @@ This will download MNIST data and save the trained model as `cvae_mnist.pth`.
    - Generates 5 random samples from the learned distribution
    - Displays generated images in real-time
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 digit-generator/
@@ -115,20 +114,20 @@ digit-generator/
 └── .gitignore             # Git ignore rules
 ```
 
-## 🔧 Configuration
+## Configuration
 
 Edit `config.py` to customize:
 - Model hyperparameters (latent dimension, batch size, learning rate)
 - Training parameters (epochs, device selection)
 - File paths and model checkpoint location
 
-## 📊 Performance
+## Performance
 
 - **Inference Time**: ~10ms per 5 images (GPU), ~50ms (CPU)
 - **Model Size**: ~2MB
 - **Memory**: ~200MB during training, ~50MB for inference
 
-## 🧠 Technical Highlights
+## Technical Highlights
 
 ### Variational Autoencoder (VAE) Basics
 - **Encoder**: Maps input images to latent distribution
@@ -140,25 +139,6 @@ Edit `config.py` to customize:
 - Enables controlled generation of specific digits
 - Learns smooth latent space for interpolation
 - Combines supervised learning (class conditioning) with unsupervised (generative) learning
-
-## 🎓 Learning Resources
-
-- **VAE Tutorial**: [Understanding Variational Autoencoders](https://arxiv.org/abs/1312.6114)
-- **CVAE Paper**: [Learning Structured Output Representation with Deep Conditional Generative Models](https://arxiv.org/abs/1411.4407)
-- **PyTorch Docs**: [Deep Learning with PyTorch](https://pytorch.org/tutorials/)
-
-## 📝 License
-
-This project is licensed under the MIT License - see `LICENSE` file for details.
-
-## 👨‍💻 About
-
-This project demonstrates professional ML engineering practices including:
-- Clean, well-documented code with type hints
-- Modular architecture for maintainability
-- Configuration-driven approach
-- Error handling and logging
-- Production-ready deployable application
 
 ---
 
