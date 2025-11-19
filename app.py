@@ -7,11 +7,14 @@ using a pre-trained Conditional Variational Autoencoder (CVAE).
 """
 
 import logging
+import os
 
 import matplotlib.pyplot as plt
+from matplotlib.figure import Figure
 import numpy as np
 import streamlit as st
 import torch
+from PIL import Image
 
 from config import DEVICE, LATENT_DIM, MAX_SAMPLES, MODEL_PATH, NUM_CLASSES
 from cvae_mnist import CVAE
@@ -99,8 +102,8 @@ def load_model() -> CVAE:
 
 
 def generate_images(
-    model: CVAE, digit: int, num_samples: int = MAX_SAMPLES, seed: int = None
-) -> np.ndarray:
+    model: CVAE, digit: int, num_samples: int = MAX_SAMPLES, seed: int = 0
+):
     """
     Generate digit images using the CVAE model.
 
@@ -119,10 +122,13 @@ def generate_images(
     if not 0 <= digit <= 9:
         raise ValueError(f"Digit must be between 0 and 9, got {digit}")
 
+    # Ensure seed is always an integer
+    if seed is None:
+        seed = 0  # Default to 0 if None
+
     try:
-        if seed is not None:
-            torch.manual_seed(seed)
-            np.random.seed(seed)
+        torch.manual_seed(seed)
+        np.random.seed(seed)
 
         with torch.no_grad():
             # Create one-hot encoded labels
@@ -145,7 +151,7 @@ def generate_images(
         raise RuntimeError(f"Failed to generate images: {e}")
 
 
-def plot_images(images: np.ndarray, digit: int, cols: int = 5) -> plt.Figure:
+def plot_images(images: np.ndarray, digit: int, cols: int = 5) -> Figure:
     """
     Plot generated images in a professional grid layout.
 
@@ -191,9 +197,20 @@ def plot_images(images: np.ndarray, digit: int, cols: int = 5) -> plt.Figure:
         fontweight="bold",
         y=0.98,
     )
-    plt.tight_layout(rect=[0, 0, 1, 0.96])
+    plt.tight_layout(rect=(0, 0, 1, 0.96))
     return fig
 
+
+def display_training_results():
+    st.header("Training and Validation Results")
+
+    # Path to the loss curve plot
+    loss_curve_path = "static/plots/loss_curve.png"
+
+    if os.path.exists(loss_curve_path):
+        st.image(Image.open(loss_curve_path), caption="Training and Validation Loss Curve")
+    else:
+        st.warning("Training results are not available. Please run the training script.")
 
 def main() -> None:
     """Main Streamlit application."""
@@ -286,7 +303,7 @@ def main() -> None:
         if generate_button:
             try:
                 with st.spinner("Generating..."):
-                    images = generate_images(model, digit, num_samples, seed)
+                    images = generate_images(model, digit, num_samples, seed or 0)
                 
                 st.success(f"✓ Generated {num_samples} variation(s)")
                 
@@ -326,6 +343,9 @@ def main() -> None:
             - Optimizer: Adam (learning rate: 0.001)
             - Parameters: ~665K
             """)
+
+        # Add a section for training results
+        display_training_results()
 
     except FileNotFoundError as e:
         st.error(

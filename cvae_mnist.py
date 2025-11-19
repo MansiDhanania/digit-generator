@@ -97,6 +97,9 @@ def train_epoch(
     model.train()
     total_loss = 0
 
+    # Determine batch size from the DataLoader or fallback to the first batch size
+    batch_size = train_loader.batch_size
+
     for batch_idx, (data, labels) in enumerate(train_loader):
         data = data.view(-1, INPUT_DIM).to(device)
         labels_onehot = torch.nn.functional.one_hot(labels, NUM_CLASSES).float().to(device)
@@ -115,7 +118,17 @@ def train_epoch(
                 f"Loss: {loss.item() / len(data):.4f}"
             )
 
-    return total_loss / len(train_loader.dataset)
+        # Fallback to the first batch size if batch_size is None
+        if batch_size is None:
+            batch_size = len(data)
+
+    # Explicitly check and ensure batch_size is not None
+    if batch_size is None:
+        raise ValueError("Batch size could not be determined.")
+
+    # Approximate dataset size using batch size and number of batches
+    dataset_size = len(train_loader) * batch_size
+    return total_loss / dataset_size
 
 
 def train_model(
@@ -124,18 +137,22 @@ def train_model(
     epochs: int = 10,
     learning_rate: float = 1e-3,
     device: torch.device = torch.device("cpu"),
-) -> None:
-    """Train the CVAE model."""
+) -> dict:
+    """Train the CVAE model and return training logs."""
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 
     logger.info(f"Starting training on device: {device}")
     logger.info(f"Epochs: {epochs}, Learning Rate: {learning_rate}")
 
+    training_logs = {"train_loss": []}
+
     for epoch in range(epochs):
         avg_loss = train_epoch(model, train_loader, optimizer, device)
+        training_logs["train_loss"].append(avg_loss)
         logger.info(f"Epoch [{epoch + 1}/{epochs}] - Average Loss: {avg_loss:.4f}")
 
     logger.info("Training completed!")
+    return training_logs
 
 
 def load_data(batch_size: int = 128) -> DataLoader:

@@ -1,16 +1,16 @@
 # Core Deep Learning
-torch==2.1.2
-torchvision==0.16.2
+torch>=2.0.0
+torchvision>=0.15.0
 
 # Web Framework
-streamlit==1.30.0
+streamlit>=1.28.0
 
 # Visualization
-matplotlib==3.8.2
-numpy==1.24.3
+matplotlib>=3.7.0
+numpy>=1.23.0
+Pillow>=9.0.0
 
 # Development & Quality
-pytest==7.4.3
-black==23.12.1
-pylint==3.0.3
-mypy==1.7.1
+black
+pylint
+mypy

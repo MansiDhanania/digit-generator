@@ -78,18 +78,29 @@ This project highlights:
 ```bash
 streamlit run app.py
 ```
+If `streamlit` doesn't run, you can also launch the app using Python:
+```bash
+python -m streamlit run app.py
+```
 Then open `http://localhost:8501` in your browser.
 
 #### Train a New Model (Optional)
 To retrain the model on MNIST:
 ```bash
-python cvae_mnist.py
+python scripts/train.py
 ```
 This will download MNIST data and save the trained model as `cvae_mnist.pth`.
 
+#### Analyze Training Results
+To generate the training loss plot:
+```bash
+python scripts/analyze_results.py
+```
+This will create `loss_curve.png` in the `static/plots` directory.
+
 ## How It Works
 
-1. **Model Training** (`cvae_mnist.py`):
+1. **Model Training** (`scripts/train.py`):
    - Loads MNIST dataset
    - Trains CVAE to encode images into a latent space
    - Learns to generate new images conditioned on digit labels
@@ -106,7 +117,7 @@ This will download MNIST data and save the trained model as `cvae_mnist.pth`.
 ```
 digit-generator/
 ├── app.py                 # Streamlit web application
-├── cvae_mnist.py          # Model training script
+├── scripts/train.py       # Model training script
 ├── cvae_mnist.pth         # Pre-trained model weights (~2MB)
 ├── config.py              # Configuration and hyperparameters
 ├── requirements.txt       # Python dependencies
